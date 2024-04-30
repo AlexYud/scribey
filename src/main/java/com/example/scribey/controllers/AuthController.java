@@ -1,4 +1,4 @@
-package com.example.scribey.controller;
+package com.example.scribey.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,7 +1,7 @@
-package com.example.scribey.controller;
+package com.example.scribey.controllers;
 
-import com.example.scribey.book.Book;
-import com.example.scribey.book.BookRepository;
+import com.example.scribey.domain.book.Book;
+import com.example.scribey.domain.book.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

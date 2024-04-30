@@ -1,4 +1,4 @@
-package com.example.scribey.book;
+package com.example.scribey.domain.book;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
