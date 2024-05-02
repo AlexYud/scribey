@@ -2,21 +2,28 @@ package com.example.scribey.controllers;
 
 import com.example.scribey.domain.book.Book;
 import com.example.scribey.domain.book.BookRepository;
+import com.example.scribey.domain.book.RequestBookDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("book")
+@RequestMapping("/book")
 public class BookController {
     @Autowired
     private BookRepository repository;
 
     @GetMapping
-    public List<Book> getAll() {
-        return repository.findAll();
+    public ResponseEntity<List<Book>> getAllBooks() {
+        return ResponseEntity.ok(repository.findAll());
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> registerBook(@RequestBody @Valid RequestBookDTO data) {
+        System.out.println(data);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,15 +1,17 @@
 package com.example.scribey.domain.book;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
-@Table(name = "books")
-@Entity(name = "books")
+@Table(name = "book")
+@Entity(name = "book")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Book {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String title;
-    private String genre;
-    private String likes;
 }
