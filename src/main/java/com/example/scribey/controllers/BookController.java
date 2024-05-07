@@ -21,7 +21,8 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<Object> registerBook(@RequestBody @Valid RequestBookDTO data) {
-        System.out.println(data);
+        Book newBook = new Book(data);
+        repository.save(newBook);
         return ResponseEntity.ok().build();
     }
 }
