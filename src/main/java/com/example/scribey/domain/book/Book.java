@@ -11,7 +11,11 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Book {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String title;
+
+    public Book(RequestBookDTO requestBookDTO) {
+        this.title = requestBookDTO.title();
+    }
 }
