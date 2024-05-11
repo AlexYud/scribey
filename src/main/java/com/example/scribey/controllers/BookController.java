@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +37,9 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity registerBook(@RequestBody @Valid RequestBookDTO data, HttpServletRequest request) {
-        var token = tokenService.recoverToken(request);
-        var email = tokenService.validateToken(token);
-        UserDetails userDetails = userRepository.findByEmail(email);
-        if (userDetails instanceof User) {
-            User user = (User) userDetails;
-            Book newBook = new Book(data, user.getId());
-            repository.save(newBook);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.internalServerError().build();
-        }
+        Book newBook = new Book(data);
+        repository.save(newBook);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping

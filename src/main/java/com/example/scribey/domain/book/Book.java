@@ -3,6 +3,7 @@ package com.example.scribey.domain.book;
 import com.example.scribey.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Table(name = "book")
 @Entity(name = "book")
@@ -15,10 +16,13 @@ public class Book {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String title;
-    private String user_id;
 
-    public Book(RequestBookDTO requestBookDTO, String user_id) {
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Book(RequestBookDTO requestBookDTO) {
         this.title = requestBookDTO.title();
-        this.user_id = user_id;
+//        (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

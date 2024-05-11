@@ -27,7 +27,7 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/login", "/auth/register", "/auth/logout", "/book/all").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/book").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/book/**").permitAll()
                         //.requestMatchers(HttpMethod.GET, "/book").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
