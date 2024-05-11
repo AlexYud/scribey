@@ -1,5 +1,6 @@
 package com.example.scribey.domain.user;
 
+import com.example.scribey.domain.book.Book;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -36,10 +37,6 @@ public class User implements UserDetails {
 
     public String getName() {
         return username;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     @Override
