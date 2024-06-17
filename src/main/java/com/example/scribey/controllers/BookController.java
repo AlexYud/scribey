@@ -1,18 +1,15 @@
 package com.example.scribey.controllers;
 
 import com.example.scribey.domain.book.Book;
-import com.example.scribey.domain.book.BookRepository;
 import com.example.scribey.domain.book.RequestBookDTO;
 import com.example.scribey.domain.user.User;
-import com.example.scribey.infra.security.TokenService;
-import com.example.scribey.repositories.UserRepository;
+import com.example.scribey.services.BookService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,30 +19,24 @@ import java.util.Optional;
 @RequestMapping("/book")
 public class BookController {
     @Autowired
-    private BookRepository repository;
-
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    UserRepository userRepository;
+    private BookService bookService;
 
     @GetMapping("/all")
-    public ResponseEntity getAllBooks() {
-        return ResponseEntity.ok(repository.findAll());
+    public ResponseEntity<?> getAllBooks() {
+        return ResponseEntity.ok(bookService.findAll());
     }
 
     @PostMapping
-    public ResponseEntity registerBook(@RequestBody @Valid RequestBookDTO data, HttpServletRequest request) {
-        Book newBook = new Book(data);
-        repository.save(newBook);
+    public ResponseEntity<?> registerBook(@RequestBody @Valid RequestBookDTO data, HttpServletRequest request) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        bookService.save(data, user.getId());
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity updateBook(@RequestBody @Valid RequestBookDTO data) {
-        Optional<Book> optionalBook = repository.findById(data.id());
+    public ResponseEntity<?> updateBook(@RequestBody @Valid RequestBookDTO data) {
+        Optional<Book> optionalBook = bookService.findById(data.id());
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
             book.setTitle(data.title());
@@ -57,11 +48,11 @@ public class BookController {
 
     @DeleteMapping
     @Transactional
-    public ResponseEntity deleteBook(@RequestBody @Valid RequestBookDTO data) {
-        Optional<Book> optionalBook = repository.findById(data.id());
+    public ResponseEntity<?> deleteBook(@RequestBody @Valid RequestBookDTO data) {
+        Optional<Book> optionalBook = bookService.findById(data.id());
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
-            repository.delete(book);
+            bookService.delete(book);
             return ResponseEntity.noContent().build();
         } else {
             throw new EntityNotFoundException();
@@ -69,8 +60,8 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getBook(@PathVariable String id) {
-        Optional<Book> optionalBook = repository.findById(id);
+    public ResponseEntity<?> getBook(@PathVariable String id) {
+        Optional<Book> optionalBook = bookService.findById(id);
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
             return ResponseEntity.ok(book);

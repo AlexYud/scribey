@@ -1,2 +1,8 @@
-package com.example.scribey.domain.user;public record LoginResponseDTO(String username, String email) {
+package com.example.scribey.domain.user;
+
+public record LoginResponseDTO(
+        String username,
+        String email,
+        String token
+) {
 }
