@@ -1,0 +1,17 @@
+ALTER TABLE book
+ADD COLUMN created_at TEXT NOT NULL;
+
+ALTER TABLE book
+ADD COLUMN updated_at TEXT NOT NULL;
+
+ALTER TABLE book
+ADD COLUMN deleted_at TEXT;
+
+ALTER TABLE users
+ADD COLUMN created_at TEXT NOT NULL;
+
+ALTER TABLE users
+ADD COLUMN updated_at TEXT NOT NULL;
+
+ALTER TABLE users
+ADD COLUMN deleted_at TEXT;

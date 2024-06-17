@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class RequestExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity thread404() {
+    public ResponseEntity<?> thread404() {
         return ResponseEntity.notFound().build();
     }
 }
